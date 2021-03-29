@@ -1,5 +1,5 @@
 # DiCyR: Disentangled cyclic reconstruction for domain adaptation
-Official github repository for the paper Disentangled cyclic reconstruction for domain adaptation submited to ICML 2021.
+Official github repository for the paper Disentangled cyclic reconstruction for domain adaptation submited to ECML-KDD 2021.
 This repository contains the code and notebooks illustrating the experiments presented in the paper.
 
 ## Installation
