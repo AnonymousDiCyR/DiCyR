@@ -121,32 +121,13 @@ def load_usps(img_size=28, augment=False, **kwargs):
     return get_loader(train_set, **kwargs), get_loader(test_set, **kwargs)
 
 
-#def load_usps(img_size=28, augment=False, **kwargs):
-#    transformations = [transforms.Resize(img_size)]
-#    transformations.append(transforms.ToTensor())
-#    if augment:
-#        transformations.append(transforms.Lambda(lambda x: random_affine_augmentation(x)))
-#        transformations.append(transforms.Lambda(lambda x: gaussian_blur(x)))
-#    img_transform = transforms.Compose(transformations)
-#    
-#    test_transform = transforms.Compose([transforms.Resize(img_size), transforms.ToTensor()])
-#
-#    train_set = USPS('../data', train=True, transform=img_transform, download=True)
-#    train_set.data = np.repeat(train_set.data, 6, axis=0)
-#    train_set.targets = np.repeat(train_set.targets, 6, axis=0)
-#    test_set = USPS('../data', train=False, transform=test_transform, download=True)
-#    return get_loader(train_set, **kwargs), get_loader(test_set, **kwargs)
-
-
-def load_svhn(img_size=(32, 32), augment=True, grayscale=False, split=1000, **kwargs):
+def load_svhn(img_size=(32, 32), rotation=0, grayscale=False, split=1000, **kwargs):
     transformations = [transforms.Resize(img_size), transforms.ColorJitter(hue=.05, saturation=.15)]
-    
+    if rotation:
+        transformations.append((transforms.RandomRotation(rotation)))
     if grayscale:
         transformations.append((transforms.Grayscale()))
     transformations.append(transforms.ToTensor())
-    if augment:
-        transformations.append(transforms.Lambda(lambda x: color_random_affine_augmentation(x)))
-        transformations.append(transforms.Lambda(lambda x: gaussian_blur(x)))
     img_transform = transforms.Compose(transformations)
 
     dataset = SVHN('../data', transform=img_transform, download=True)
